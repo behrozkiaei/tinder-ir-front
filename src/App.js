@@ -3,10 +3,10 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-
+import axios from "axios"
 // Routing
 import PrivateRoute from "./components/routing/PrivateRoute";
-import axios from "axios"
+
 // Screens
 import PrivateScreen from "./components/screens/PrivateScreen";
 import LoginScreen from "./components/screens/LoginScreen";
@@ -17,7 +17,10 @@ const App = () => {
   axios.defaults.baseURL = 'https://tinder-ir-back.herokuapp.com/';
   return ( <
     Router >
-    <
+    <   
+
+
+
     div className = "app" >
     <
     Switch >
@@ -46,10 +49,10 @@ const App = () => {
     component = {
       ResetPasswordScreen
     }
-    /> < /
-    Switch > <
-    /div> < /
-    Router >
+    /> <
+    /Switch> <
+    /div> <
+    /Router>
   );
 };
 
