@@ -4,26 +4,48 @@ import {
 } from "react";
 import axios from "axios";
 import "./Main.css";
-import TinderCards from "./subMain/TinderCards"
-import SwipeButtons from "./subMain/SwipeButtons"
 import Header from "./Header"
 
+import SwipeButtons from "./subMain/SwipeButtons"
+import TinderCards from "./subMain/TinderCards"
+
 const Main = () => {
+  const [error, setError] = useState("");
+  const [privateData, setPrivateData] = useState("");
 
+  useEffect(() => {
+    const fetchPrivateDate = async () => {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      };
 
-  const [error, setError] = useState(null)
+      try {
+        const {
+          data
+        } = await axios.get("/api/private", config);
+        setPrivateData(data.data);
+      } catch (error) {
+        localStorage.removeItem("authToken");
+        setError("You are not authorized please login");
+      }
+    };
 
-
-
-  return error ? (< span className="error-message" > {
-    error
-  } </span>
-  ) : (
-    <div>
+    fetchPrivateDate();
+  }, []);
+  return error ? (<
+    span className="error-message" > {
+      error
+    } </span>
+  ) : (<div > {
+    <>
       <Header />
       <TinderCards />
       <SwipeButtons />
-    </div>
+    </>
+  } </div>
   );
 };
 
