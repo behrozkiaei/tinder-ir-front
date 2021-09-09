@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect
+} from "react";
 import axios from "axios";
-import "./PrivateScreen.css";
+import "./Main.css";
 
-const PrivateScreen = () => {
+const Main = () => {
   const [error, setError] = useState("");
   const [privateData, setPrivateData] = useState("");
 
@@ -16,7 +19,9 @@ const PrivateScreen = () => {
       };
 
       try {
-        const { data } = await axios.get("/api/private", config);
+        const {
+          data
+        } = await axios.get("/api/private", config);
         setPrivateData(data.data);
       } catch (error) {
         localStorage.removeItem("authToken");
@@ -26,11 +31,15 @@ const PrivateScreen = () => {
 
     fetchPrivateDate();
   }, []);
-  return error ? (
-    <span className="error-message">{error}</span>
-  ) : (
-    <div>{privateData}</div>
+  return error ? ( <
+    span className = "error-message" > {
+      error
+    } < /span>
+  ) : ( <
+    div > {
+      privateData
+    } < /div>
   );
 };
 
-export default PrivateScreen;
+export default Main;
