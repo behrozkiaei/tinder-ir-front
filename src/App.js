@@ -16,18 +16,24 @@ import ResetPasswordScreen from "./components/screens/ResetPasswordScreen";
 const App = () => {
 
   axios.defaults.baseURL = process.env.REACT_APP_MODE === "STAGE" ? process.env.REACT_APP_BASEURL_STAGE : process.env.REACT_APP_BASEURL;
-  return (<  Router >
-    < div className="app" >
-      <Switch >
-        <PrivateRoute exact path="/"
+  return (<
+    Router >
+    <
+    div className="app" >
+      <
+    Switch >
+        <
+          PrivateRoute exact path="/"
           component={
             Main
-          } />{" "}
-        <Route exact path="/login"
+          }
+        />{" "} <
+          Route exact path="/login"
           component={
             LoginScreen
-          } />{" "}
-        < Route exact path="/register"
+          }
+        />{" "} <
+          Route exact path="/register"
           component={
             RegisterScreen
           }
