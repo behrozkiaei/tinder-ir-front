@@ -13,47 +13,47 @@ import LoginScreen from "./components/screens/LoginScreen";
 import RegisterScreen from "./components/screens/RegisterScreen";
 import ForgotPasswordScreen from "./components/screens/ForgotPasswordScreen";
 import ResetPasswordScreen from "./components/screens/ResetPasswordScreen";
+import Profile from "./components/screens/Profile"
+
+
 const App = () => {
 
   axios.defaults.baseURL = process.env.REACT_APP_MODE === "STAGE" ? process.env.REACT_APP_BASEURL_STAGE : process.env.REACT_APP_BASEURL;
-  return (<
-    Router >
-    <
-    div className="app" >
-      <
-    Switch >
-        <
-          PrivateRoute exact path="/"
+  return (< Router >
+    <div className="app" >
+      <Switch>
+        <PrivateRoute exact path="/"
           component={
             Main
-          }
-        />{" "} <
-          Route exact path="/login"
+          } />{" "}
+        <PrivateRoute exact path="/profile"
+          component={
+            Profile
+          } />{" "}
+        <Route exact path="/login"
           component={
             LoginScreen
           }
-        />{" "} <
-          Route exact path="/register"
+        />{" "}
+        <Route exact path="/register"
           component={
             RegisterScreen
           }
-        />{" "} <
-          Route exact path="/forgotpassword"
+        />{" "}
+        <Route exact path="/forgotpassword"
           component={
             ForgotPasswordScreen
           }
-        />{" "} <
-          Route exact path="/passwordreset/:resetToken"
+        />{" "}
+        <Route exact path="/passwordreset/:resetToken"
           component={
             ResetPasswordScreen
           }
-        />{" "} < /
-    Switch > {
-          " "
-        } <
-    /div>{" "} < /
-    Router >
-        );
+        />{" "} </Switch > {
+        " "
+      }
+    </div>{" "} </Router>
+  );
 };
 
-        export default App;
+export default App;

@@ -12,6 +12,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root {
+  --color-primary: #fe3c72;
+  --color-secondary: white;
+  --color-tertiary: #424242;
+  --color-mtn: #fdd835;
+  --color-mci: #54c5d0;
+  --color-rightel: #9b2776;
+}
+
 
 
 body {

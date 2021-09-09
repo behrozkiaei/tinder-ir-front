@@ -38,16 +38,15 @@ const Main = () => {
   return error ? (<
     span className="error-message" > {
       error
-    } < /span>
-    ) : ( <
-    div > {
-        <>
-          <Header />
-          <TinderCards />
-          <SwipeButtons />
-        </>
-      } < /div>
-      );
+    } </span>
+  ) : (<div > {
+    <>
+      <Header />
+      <TinderCards />
+      <SwipeButtons />
+    </>
+  } </div>
+  );
 };
 
-      export default Main;
+export default Main;

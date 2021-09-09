@@ -1,0 +1,102 @@
+.pro-container {
+    width: 100%;
+    max-width: 768px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    position: relative;
+    margin: auto;
+    height: 90vh;
+    overflow-x: hidden;
+}
+
+.pro-container .clip {
+    position: absolute;
+    height: 80vh;
+    background-color: var(--color-primary);
+    width: 150%;
+    border-radius: 0% 0% 50% 50%;
+    z-index: -2;
+
+}
+
+.pro-container .avatar-box {
+    height: 30vh;
+    object-fit: fill;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.avatar-box p {
+    color: var(--color-secondary);
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.pro-container .avatar-box img {
+    border-radius: 50%;
+    border: 1px solid #f4f4f4;
+    width: 100px;
+    height: 100px;
+    object-fit: fill;
+    border-radius: 50%;
+
+
+}
+
+.avatar-box .noAvatar {
+    border-radius: 50%;
+    background-color: var(--color-secondary);
+    border: 1px solid #f4f4f4;
+    width: 100px;
+    height: 100px;
+    object-fit: fill;
+    border-radius: 50%;
+}
+
+.edit-avatar {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 75px;
+}
+
+.pro-container .info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.pro-container .upload-image {
+    margin-top: 65px;
+}
+
+.pro-container .icon-box {
+    background-color: #f4f4f485;
+}
+
+.pro-container .info,
+.edit,
+.setting p {
+    color: var(--color-secondary);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.info .upload-image,
+.edit,
+.setting {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
