@@ -4,6 +4,10 @@ import {
 } from "react";
 import axios from "axios";
 import "./Main.css";
+import Header from "./Header"
+
+import SwipeButtons from "./subMain/SwipeButtons"
+import TinderCards from "./subMain/TinderCards"
 
 const Main = () => {
   const [error, setError] = useState("");
@@ -31,15 +35,19 @@ const Main = () => {
 
     fetchPrivateDate();
   }, []);
-  return error ? ( <
-    span className = "error-message" > {
+  return error ? (<
+    span className="error-message" > {
       error
     } < /span>
-  ) : ( <
+    ) : ( <
     div > {
-      privateData
-    } < /div>
-  );
+        <>
+          <Header />
+          <TinderCards />
+          <SwipeButtons />
+        </>
+      } < /div>
+      );
 };
 
-export default Main;
+      export default Main;
