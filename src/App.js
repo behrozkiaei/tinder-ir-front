@@ -14,11 +14,10 @@ import RegisterScreen from "./components/screens/RegisterScreen";
 import ForgotPasswordScreen from "./components/screens/ForgotPasswordScreen";
 import ResetPasswordScreen from "./components/screens/ResetPasswordScreen";
 import Profile from "./components/screens/Profile"
-
+import interceptor from "./interceptor/interceptor";
 
 const App = () => {
-
-  axios.defaults.baseURL = process.env.REACT_APP_MODE === "STAGE" ? process.env.REACT_APP_BASEURL_STAGE : process.env.REACT_APP_BASEURL;
+interceptor();
   return (< Router >
     <div className="app" >
       <Switch>

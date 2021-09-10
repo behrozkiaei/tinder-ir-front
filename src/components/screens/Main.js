@@ -15,17 +15,12 @@ const Main = () => {
 
   useEffect(() => {
     const fetchPrivateDate = async () => {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      };
+     
 
       try {
         const {
           data
-        } = await axios.get("/api/private", config);
+        } = await axios.get("/api/private");
         setPrivateData(data.data);
       } catch (error) {
         localStorage.removeItem("authToken");
