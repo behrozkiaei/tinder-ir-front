@@ -10,56 +10,56 @@ import axios from "axios"
 function Profile() {
 
 
-   const  [avatarLoading , setAvatarLoader] = useState(null)
-   const  [avatarError , setAvatarError] = useState(null)
+    const [avatarLoading, setAvatarLoader] = useState(null)
+    const [avatarError, setAvatarError] = useState(null)
 
-   const  [avatar , setAvatar] = useState(null)
-   const  [images , setImages] = useState([ "https://tinder.s3.ir-thr-at1.arvanstorage.com/111.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg" , "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg" , "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg" , "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg" , "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg" ])
+    const [avatar, setAvatar] = useState(null)
+    const [images, setImages] = useState(["https://tinder.s3.ir-thr-at1.arvanstorage.com/111.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg"])
 
-   
-    useEffect(()=>{
-        },[avatar, images])
-        const handleFileInput =async (fileUploaded , type = "avatar")=>{
-            setAvatarLoader(true)
-            console.log(fileUploaded)
 
-        if (fileUploaded.size > 2024000){
+    useEffect(() => {
+    }, [avatar, images])
+    const handleFileInput = async (fileUploaded, type = "avatar") => {
+        setAvatarLoader(true)
+        console.log(fileUploaded)
+
+        if (fileUploaded.size > 2024000) {
             setAvatarError("File size cannot exceed more than 1MB");
             setAvatarLoader(false)
             return false;
         }
 
-    
+
         const formData = new FormData();
         formData.append("file", fileUploaded);
         formData.append("type", type);
-        axios.post("/api/upload",formData).then((res)=>{
+        axios.post("/api/upload", formData).then((res) => {
             console.log(res?.data?.fileUrl || null)
-            if(res?.data?.fileUrl){
 
 
-               if(type === "avatar") 
-               setAvatar(res.data.fileUrl || null)
 
-               if(type === "image") 
-                setImages(pre =>   [...pre, res.data.fileUrl] )
+            if (type === "avatar" && res?.data?.fileUrl)
+                setAvatar(res.data.fileUrl || null)
 
-            }
-            }).catch(e=>{
-                setAvatarError(e.response?.data?.error || "Network Erro");
-                setTimeout(() => {
-                    setAvatarError("");
-                }, 5000);
+            if (type === "image" && res?.data)
+                setImages(pre => [...pre, res.data.image])
 
-            }).finally(()=>{
-                setAvatarLoader(false)
-            });
-        
+
+        }).catch(e => {
+            setAvatarError(e.response?.data?.error || "Network Erro");
+            setTimeout(() => {
+                setAvatarError("");
+            }, 5000);
+
+        }).finally(() => {
+            setAvatarLoader(false)
+        });
+
     }
 
-        const imageList = images.map((d) =>  <div className="box" >
-                    <img src={d}></img>
-                    </div>);
+    const imageList = images.map((d) => <div className="box" >
+        <img src={d}></img>
+    </div>);
     return (
         <>
             <Header />
@@ -67,26 +67,26 @@ function Profile() {
                 <div className="clip">
 
                 </div>
-             
-                        <div className="image-slider" >
-                            {imageList}     
-                        </div>
-                
-                
+
+                <div className="image-slider" >
+                    {imageList}
+                </div>
+
+
                 <div className="avatar-box">
                     {avatar &&
-                        <img src={avatar} />   
+                        <img src={avatar} />
                     }
                     {!avatar &&
-                    <label htmlFor="avatarUplade">
-                        <PersonIcon className="noAvatar"   style={{ fontSize: 100 }} color="primary" ></PersonIcon>
-                        <EditIcon className="edit-avatar" color="secondary"></EditIcon>
-                    </label>
+                        <label htmlFor="avatarUplade">
+                            <PersonIcon className="noAvatar" style={{ fontSize: 100 }} color="primary" ></PersonIcon>
+                            <EditIcon className="edit-avatar" color="secondary"></EditIcon>
+                        </label>
 
                     }
                     <p color="secondary">Behroooz</p>
                     <form>
-                      <input type="file" className="upload-avatar" id="avatarUplade" onChange={(e)=>handleFileInput(e.target.files[0],"avatar")} />
+                        <input type="file" className="upload-avatar" id="avatarUplade" onChange={(e) => handleFileInput(e.target.files[0], "avatar")} />
                     </form>
                 </div>
 
@@ -98,14 +98,14 @@ function Profile() {
                         <p color="secondary">Edit Profile</p>
                     </div>
                     <div className="upload-image">
-                            <IconButton className="icon-box" htmlFor="imageUpload">
-                                <label  htmlFor = "imageUpload" className="uplaodBoxHidden">
-                                </label>
-                                <PhotoCameraIcon style={{ fontSize: 80, color: "white" }} />
-                            </IconButton>
-                           <p color="secondary">Upload Image</p>
-                         <form>
-                               <input type="file" className="upload-avatar" id="imageUpload" onChange={(e)=>handleFileInput(e.target.files[0] , "image")} />
+                        <IconButton className="icon-box" htmlFor="imageUpload">
+                            <label htmlFor="imageUpload" className="uplaodBoxHidden">
+                            </label>
+                            <PhotoCameraIcon style={{ fontSize: 80, color: "white" }} />
+                        </IconButton>
+                        <p color="secondary">Upload Image</p>
+                        <form>
+                            <input type="file" className="upload-avatar" id="imageUpload" onChange={(e) => handleFileInput(e.target.files[0], "image")} />
                         </form>
                     </div>
                     <div className="setting">
