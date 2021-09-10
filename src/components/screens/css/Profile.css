@@ -14,7 +14,9 @@
 .pro-container .clip {
     position: absolute;
     height: 80vh;
-    background-color: var(--color-primary);
+    /* background-color: var(--color-primary); */
+    /* background: rgb(253,41,123); */
+    background: linear-gradient(157deg, rgba(253, 41, 123, 1) 0%, rgba(255, 88, 100, 1) 50%, rgba(255, 101, 91, 1) 100%);
     width: 150%;
     border-radius: 0% 0% 50% 50%;
     z-index: -2;
@@ -66,9 +68,11 @@
     position: absolute;
     width: 20px;
     height: 20px;
-    right: 75px;
+    right: 7px;
 }
-
+.pro-container .upload-avatar{
+    display:none;
+}
 .pro-container .info {
     display: flex;
     justify-content: space-around;
@@ -78,6 +82,12 @@
 
 .pro-container .upload-image {
     margin-top: 65px;
+    position: relative;
+}
+.pro-container .upload-image .uplaodBoxHidden{
+    width: 100%;
+    height: 100%;
+    position:absolute
 }
 
 .pro-container .icon-box {
@@ -99,4 +109,36 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+}
+
+.pro-container .image-slider{
+    position: absolute;
+    z-index: 1;
+    overflow-x: scroll;
+    bottom: 0;
+    width: 90%;
+    display: flex;
+    box-shadow: -7px 0px 14px 0px rgba(0,0,0,0.75);
+    border-radius: 1.5em;
+    margin: 0px 10px 12px 10px;
+    padding: 5px;
+    background-color: #ffffffd6;
+    overflow-y: hidden;
+    justify-content: center;
+    align-content: center;
+    height: 15vh
+}
+
+.pro-container .image-slider .box{
+    width : 100px;
+    height: 100px;
+    margin:5px
+
+}
+.pro-container .image-slider .box img{
+margin:10px ; 
+width: 100px;
+height: 100px;
+object-fit: fill;
+ border-radius: 1.5em
 }
