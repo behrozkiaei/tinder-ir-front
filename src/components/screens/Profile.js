@@ -14,7 +14,7 @@ function Profile() {
     const [avatarError, setAvatarError] = useState(null)
 
     const [avatar, setAvatar] = useState(null)
-    const [images, setImages] = useState(["https://tinder.s3.ir-thr-at1.arvanstorage.com/111.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg", "https://tinder.s3.ir-thr-at1.arvanstorage.com/2222.jpg"])
+    const [images, setImages] = useState([])
 
 
     useEffect(() => {
@@ -67,10 +67,12 @@ function Profile() {
                 <div className="clip">
 
                 </div>
-
-                <div className="image-slider" >
-                    {imageList}
-                </div>
+                {
+                    images.length > 0 &&
+                    <div className="image-slider" >
+                        {imageList}
+                    </div>
+                }
 
 
                 <div className="avatar-box">

@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import "./LoginScreen.css";
+import { useDispatch } from "react-redux"
 
 const LoginScreen = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (localStorage.getItem("authToken")) {
       history.push("/");
@@ -29,10 +30,27 @@ const LoginScreen = ({ history }) => {
         { email, password },
         config
       );
-        console.log(data.token)
+      console.log(data.token)
       window.localStorage.setItem("authToken", data.token);
+      const userInfo = async () => {
 
-      history.push("/");
+        try {
+
+          const res = await axios.get("/api/tinder/getUserInfo")
+
+          dispatch({
+            type: "LOGIN_SUCCESS",
+            payload: res?.data?.data
+          })
+          history.push("/");
+
+        } catch (errror) {
+
+        }
+      }
+      userInfo();
+
+
     } catch (error) {
       setError(error?.response?.data?.error || "something goes wrong..!");
       setTimeout(() => {

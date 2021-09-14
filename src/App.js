@@ -15,43 +15,84 @@ import ForgotPasswordScreen from "./components/screens/ForgotPasswordScreen";
 import ResetPasswordScreen from "./components/screens/ResetPasswordScreen";
 import Profile from "./components/screens/Profile"
 import interceptor from "./interceptor/interceptor";
+import Message from "./components/chat/Message"
+import { useHistory } from "react-router"
+import {
+  useRef,
+  useState,
+  useEffect,
+
+} from "react";
+import {
+  io
+} from "socket.io-client";
+
+import {
+  useSelector,
+  useDispatch
+} from "react-redux";
+import { Chat } from "@material-ui/icons";
 
 const App = () => {
-interceptor();
+
+  const Auth = useSelector(state => state.Auth.user);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  interceptor(history, dispatch);
+
+
+
+  const socket = useRef();
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:5000");
+    socket.current.on("getMessage", (data) => {
+      console.log(data)
+      dispatch({
+        type: "SET_COONVERSATIONS",
+        payload: data,
+      });
+
+    });
+  }, []);
+
+
   return (< Router >
     <div className="app" >
-      <Switch>
-        <PrivateRoute exact path="/"
-          component={
-            Main
-          } />{" "}
-        <PrivateRoute exact path="/profile"
-          component={
-            Profile
-          } />{" "}
-        <Route exact path="/login"
-          component={
-            LoginScreen
-          }
-        />{" "}
-        <Route exact path="/register"
-          component={
-            RegisterScreen
-          }
-        />{" "}
-        <Route exact path="/forgotpassword"
+      <Switch >
+
+        <Route exact path="/">
+          {(Auth) ? <Main /> : <LoginScreen />}
+        </Route>
+
+        <Route exact path="/chat">
+          {(Auth) ? <Message /> : <LoginScreen />}
+        </Route>
+
+        <Route exact path="/profile">
+          {(Auth) ? <Profile /> : <LoginScreen />}
+        </Route>
+
+        <Route exact path="/login">
+          {(Auth) ? <Main /> : <LoginScreen />}
+        </Route>
+
+
+        <Route exact path="/register">
+          {(Auth) ? <Main /> : <LoginScreen />}
+        </Route>
+
+        < Route exact path="/forgotpassword"
           component={
             ForgotPasswordScreen
-          }
-        />{" "}
-        <Route exact path="/passwordreset/:resetToken"
+          } />
+        {" "}
+        < Route exact path="/passwordreset/:resetToken"
           component={
             ResetPasswordScreen
-          }
-        />{" "} </Switch > {
+          } />{" "} </Switch > {
         " "
-      }
-    </div>{" "} </Router>
+      } </div>{" "} </Router >
   );
 };
 
