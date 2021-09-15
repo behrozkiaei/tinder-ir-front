@@ -45,7 +45,10 @@ const App = () => {
   const socket = useRef();
 
   useEffect(() => {
+  
     socket.current = io("ws://localhost:5000");
+     //take userId and socketId from user
+     socket.current.emit("userOnline", Auth?.user._id );
     socket.current.on("getMessage", (data) => {
       console.log(data)
       dispatch({

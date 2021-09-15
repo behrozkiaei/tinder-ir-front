@@ -12,7 +12,7 @@ export const interceptor = (history, dispatch) => {
         if (window.localStorage.getItem("authToken")) {
             req.headers.authorization = "Bearer " + window.localStorage.getItem("authToken");
         }
-        console.log(req)
+        
         axios.defaults.headers.common['Content-Type'] = "application/json";
         return req;
     })
@@ -25,7 +25,7 @@ export const interceptor = (history, dispatch) => {
             return successRes;
         },
         function (error) {
-            if (error.response.status === 401) {
+            if (error.response?.status === 401) {
                 console.log("oouuuuuut interceptor")
                 dispatch({
                     type: "LOGOUT"
