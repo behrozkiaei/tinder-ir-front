@@ -13,15 +13,16 @@ function Message() {
     const [messages , setMessages] = useState([])
     const [tempMessage , setTempMessage] = useState(null)
     const [conversation_id,setConvId] = useState("61409e95cd800e1a24378e2b")
-    const [user_to,setUser_to] = useState((["613f371a1324533f3851a8b7" , "613f2013c3b7b30ed074913d"].filter(d => d!=user._is )))
+    const [user_to,setUser_to] = useState((["613f371a1324533f3851a8b7" , "613f2013c3b7b30ed074913d"].filter(d => d!=user?.user._id )))
     const dispatch  = useDispatch();
     useEffect(() => {
+        console.log("user_to" , user_to)
         const getCon = async ()=>{
 
            await axios.post("/api/chat/getAllConvMess" ,{
                 conversation_id : conversation_id
             }).then(res=>{
-                console.log(res.data.data)
+                
                 dispatch({
                     type :  "SET_MESSAGES",
                     payload  : res.data.data,
@@ -33,16 +34,16 @@ function Message() {
     },[])
 
     useEffect(() => {
-        console.log(user)
-        socket.current = io("ws://localhost:5000");
-        console.log(user._id)
-        socket.current.emit("userOnline", user._id);
+       
+        socket.current = io("ws://192.168.12.39:5000");
+     
+        socket.current.emit("userOnline",user?.user?._id);
 
         socket.current.on("global", data=>{
             console.log("client recived" ,data)
         })
         socket.current.on("sendMessage", (data)=>{
-            console.log(data)
+            console.log("socket from "  + data)
             axios.post("/api/chat/getAllConvMess" ,{
                 conversation_id : conversation_id
             }).then(res=>{
@@ -65,14 +66,11 @@ function Message() {
             message: tempMessage,
             status: "UNREAD"
         }).then((res)=>{
-            // setMessages(pre => pre.push({
-            //     message : tempMessage,
-            //     user_to : user_to[0],
-            // }))
+
              axios.post("/api/chat/getAllConvMess" ,{
                 conversation_id : conversation_id
             }).then(res=>{
-                console.log(res.data.data)
+               
                 dispatch({
                     type :  "SET_MESSAGES",
                     payload  : res.data.data,
