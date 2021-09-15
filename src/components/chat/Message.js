@@ -4,17 +4,37 @@ import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { useSelector,useDispatch } from "react-redux"
-
+import {
+    Link,
+    useParams
+  } from "react-router-dom";
 function Message() {
-
+    let { conversation_id } = useParams();
     const socket = useRef();
     const user = useSelector(Store => Store.Auth.user)
     // const messages  = useSelector(State=>State.Chat.messages)
     const [messages , setMessages] = useState([])
     const [tempMessage , setTempMessage] = useState(null)
-    const [conversation_id,setConvId] = useState("61409e95cd800e1a24378e2b")
-    const [user_to,setUser_to] = useState((["613f371a1324533f3851a8b7" , "613f2013c3b7b30ed074913d"].filter(d => d!=user?.user._id )))
+    const [user_to,setUser_to] = useState([])
     const dispatch  = useDispatch();
+    const [conv , setConv] =useState(null)
+    useEffect(()=>{
+    
+                axios.post("/api/chat/getConvById",{
+                    conv_id: conversation_id
+                }).then(res=>{
+
+                    setUser_to(res.data.data.conversation_between.filter(d => d != user?.user._id ))
+                    setConv(res.data.data)
+                }).catch(err=>{
+
+                })
+           
+        
+
+    },[])
+
+
     useEffect(() => {
         console.log("user_to" , user_to)
         const getCon = async ()=>{
@@ -28,6 +48,7 @@ function Message() {
                     payload  : res.data.data,
                 })
                 setMessages(res.data.data);
+
             })
         }
         getCon();
@@ -35,7 +56,7 @@ function Message() {
 
     useEffect(() => {
        
-        socket.current = io("ws://192.168.12.39:5000");
+        socket.current = io(process.env.REACT_APP_MODE === "STAGE" ? process.env.REACT_APP_SOCKETURL_STAGE : process.env.REACT_APP_SOCKETURL_STAGE);
      
         socket.current.emit("userOnline",user?.user?._id);
 

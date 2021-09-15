@@ -33,7 +33,7 @@ function Header({ backButton }) {
                 />
             </Link>
 
-            <Link to='/chat'>
+            <Link to='/conversations'>
                 <IconButton>
                     <ForumIcon />
                 </IconButton>

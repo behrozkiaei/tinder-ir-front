@@ -9,13 +9,13 @@ const INITIAL_STATE = {
 
 export const ChatReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case "SET_COONVERSATIONS":
+        case "SET_CONVERSATIONS":
+ 
             window.localStorage.removeItem("conversations");
             window.localStorage.setItem("conversation", JSON.stringify(action.payload))
             return {
                 ...state,
                 conversations: action.payload
-
             };
             case "SET_MESSAGES":
                 window.localStorage.removeItem("message");
