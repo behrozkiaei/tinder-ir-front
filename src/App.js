@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 // Routing
-import PrivateRoute from "./components/routing/PrivateRoute";
+
 
 // Screens
 import Main from "./components/screens/Main";
@@ -19,7 +19,9 @@ import Message from "./components/chat/Message"
 import Conversation from "./components/chat/ConversationList"
 
 
-import { useHistory } from "react-router"
+import {
+  useHistory
+} from "react-router"
 import {
   useRef,
   useState,
@@ -33,85 +35,65 @@ import {
   useSelector,
   useDispatch
 } from "react-redux";
-import { Chat } from "@material-ui/icons";
+import {
+  Chat
+} from "@material-ui/icons";
+import SplashScreen from "./components/splash/SplashScreen";
 
 const App = () => {
 
   const Auth = useSelector(state => state.Auth.user);
   const history = useHistory();
   const dispatch = useDispatch();
+  const [token] = useState(localStorage.getItem("authToken"))
+
   interceptor(history, dispatch);
 
 
+  return (
+    <Router>
 
-  const socket = useRef();
+      <div className="app" >
+        <Switch >
+          <Route exact path="/" > {
+            (Auth) ? < Main /> : < LoginScreen />}
+          </Route>
 
-  useEffect(() => {
+          <Route exact path="/splash">
+            < SplashScreen />
+          </Route>
 
-    if(Auth?.user._id ){
+          <Route exact path="/conversations" > {
+            (Auth) ? < Conversation /> : < LoginScreen />}
+          </Route>
+          <Route exact path="/chat/:conversation_id" > {
+            (Auth) ? < Message /> : < LoginScreen />}
+          </Route>
+          <Route exact path="/profile" > {
+            (Auth) ? < Profile /> : < LoginScreen />}
+          </Route>
 
-      axios.get("/api/chat/getUserConversation").then(res=>{
-        
-        dispatch({
-          type : "SET_CONVERSATIONS",
-          payload : res.data?.data
-        })
-      })
-
-      socket.current = io("ws://localhost:5000");
-      //take userId and socketId from user
-      socket.current.emit("userOnline", Auth?.user._id );
-      socket.current.on("getMessage", (data) => {
-        console.log(data)
-        dispatch({
-          type: "SET_MESSAGES",
-          payload: data,
-        });
-
-      });
-    }
-  }, []);
+          <Route exact path="/login" > {
+            (token) ? < SplashScreen /> : < LoginScreen />}
+          </Route>
 
 
-  return (< Router >
-    <div className="app" >
-      <Switch >
+          <Route exact path="/register" > {
+            (Auth) ? < Main /> : < LoginScreen />
+          }
+          </Route>
 
-        <Route exact path="/">
-          {(Auth) ? <Main /> : <LoginScreen />}
-        </Route>
-
-        <Route exact path="/conversations">
-          {(Auth) ? <Conversation /> : <LoginScreen />}
-        </Route>
-        <Route exact path="/chat/:conversation_id">
-          {(Auth) ? <Message /> : <LoginScreen />}
-        </Route>
-
-        <Route exact path="/profile">
-          {(Auth) ? <Profile /> : <LoginScreen />}
-        </Route>
-
-        <Route exact path="/login">
-          {(Auth) ? <Main /> : <LoginScreen />}
-        </Route>
-
-
-        <Route exact path="/register">
-          {(Auth) ? <Main /> : <LoginScreen />}
-        </Route>
-
-        < Route exact path="/forgotpassword"
-          component={
-            ForgotPasswordScreen
-          } />
-        {" "}
-        < Route exact path="/passwordreset/:resetToken"
-          component={
-            ResetPasswordScreen
-          } />{" "} </Switch > {
-        " "
-      } </div>{" "} </Router >
+          <Route exact path="/forgotpassword"
+            component={
+              ForgotPasswordScreen
+            }
+          />
+          <Route exact path="/passwordreset/:resetToken"
+            component={
+              ResetPasswordScreen
+            }
+          />
+        </Switch > </div> </Router >
   );
 };
 

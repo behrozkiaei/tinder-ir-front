@@ -3,125 +3,85 @@ import React from 'react'
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
-import { useSelector,useDispatch } from "react-redux"
-import {
-    Link,
-    useParams
-  } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux"
+import { Link, useParams } from "react-router-dom";
+import Header from '../screens/Header';
+import "./Message.css"
 function Message() {
     let { conversation_id } = useParams();
     const socket = useRef();
+    const scrollRef = useRef();
+    //red store messages conv and user 
     const user = useSelector(Store => Store.Auth.user)
-    // const messages  = useSelector(State=>State.Chat.messages)
-    const [messages , setMessages] = useState([])
-    const [tempMessage , setTempMessage] = useState(null)
-    const [user_to,setUser_to] = useState([])
-    const dispatch  = useDispatch();
-    const [conv , setConv] =useState(null)
-    useEffect(()=>{
-    
-                axios.post("/api/chat/getConvById",{
-                    conv_id: conversation_id
-                }).then(res=>{
-
-                    setUser_to(res.data.data.conversation_between.filter(d => d != user?.user._id ))
-                    setConv(res.data.data)
-                }).catch(err=>{
-
-                })
-           
-        
-
-    },[])
-
+    const $messages = useSelector(State => State.Chat.message)
+    const $conv = useSelector(State => State.Chat.conversations?.filter(d => d._id === conversation_id)[0])
+    const dispatch = useDispatch();
+    const [messages, setMessage] = useState([])
+    const [tempMessage, setTempMessage] = useState(null)
+    const [user_to, setUser_to] = useState([])
 
     useEffect(() => {
-        console.log("user_to" , user_to)
-        const getCon = async ()=>{
+        setUser_to($conv?.conversation_between?.filter(d => d !== user?.user._id)[0] || null)
+    }, [])
+    useEffect(() => {
+        setMessage($messages?.filter(d => d.conversation_id === conversation_id) || [])
 
-           await axios.post("/api/chat/getAllConvMess" ,{
-                conversation_id : conversation_id
-            }).then(res=>{
-                
-                dispatch({
-                    type :  "SET_MESSAGES",
-                    payload  : res.data.data,
-                })
-                setMessages(res.data.data);
-
-            })
-        }
-        getCon();
-    },[])
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [$messages])
 
     useEffect(() => {
-       
-        socket.current = io(process.env.REACT_APP_MODE === "STAGE" ? process.env.REACT_APP_SOCKETURL_STAGE : process.env.REACT_APP_SOCKETURL_STAGE);
-     
-        socket.current.emit("userOnline",user?.user?._id);
+        console.log("new message added to store from other user")
 
-        socket.current.on("global", data=>{
-            console.log("client recived" ,data)
-        })
-        socket.current.on("sendMessage", (data)=>{
-            console.log("socket from "  + data)
-            axios.post("/api/chat/getAllConvMess" ,{
-                conversation_id : conversation_id
-            }).then(res=>{
-                console.log(res.data.data)
-                dispatch({
-                    type :  "SET_MESSAGES",
-                    payload  : res.data.data,
-                })
-                setMessages(res.data.data);
-            })
-        })
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages])
 
-    }, []);
-    const submitForm =(e)=>{
+    const submitForm = (e) => {
         e.preventDefault();
-        
-        axios.post("/api/chat/sendMessage" , {
-            conversation_id: conversation_id,
-            user_to: user_to[0],
+
+        axios.post("/api/chat/sendMessage", {
+            conversation_id: $conv._id,
+            user_to: user_to,
             message: tempMessage,
             status: "UNREAD"
-        }).then((res)=>{
+        }).then((res) => {
 
-             axios.post("/api/chat/getAllConvMess" ,{
-                conversation_id : conversation_id
-            }).then(res=>{
-               
-                dispatch({
-                    type :  "SET_MESSAGES",
-                    payload  : res.data.data,
-                })
-                socket.current.emit("sendMessage", user_to[0], tempMessage)
-                setMessages(res.data.data);
-                setTempMessage(null)
-            })
-
-
+            console.log(res.data.data)
+            //push that message in to the store chat
+            dispatch({ type: "ADD_MESSAGE", payload: res.data.data })
+            setTempMessage('')
         })
     }
-    useEffect(()=>{
-       
-    },[messages])
+
     return (
         <>
-        <div>
-            { messages.map((d,i)=>(
-                <div key ={i}>
-                    <p >{d.message}</p>
+            <Header></Header>
+            <div className="chatContainder">
+                <div className="MessegesContainer" > {
+
+                    messages.map((d, i) => (
+
+
+
+                        <div key={i} className={"messageBox " + ((d.user_to && d.user_to !== user.user._id) ? "" : "rtlChat")}>
+
+                            <div className="avatar" >
+                                <img src={$conv.userToInfo.avatar || "https://tinder.s3.ir-thr-at1.arvanstorage.com/person-icon.png"} alt="avatar" />
+                            </div>
+                            <div className="convBox">
+                                <p className={((d.user_to && d.user_to !== user.user._id) ? "recieved" : "sent")}>{d.message}</p>
+                            </div>
+                        </div>
+
+                    ))}
+                    <div ref={scrollRef} />
                 </div>
-             ))}
-        </div>
-        <div >
-            <form onSubmit={(e)=>submitForm(e)}>
-                <input value={tempMessage || ""} onChange={(e) =>{setTempMessage(e.target.value)}} />
-                <input type="submit" value="Submit" />
-            </form>
-        </div>
+                <div className="textInputBox">
+                    < form onSubmit={(e) => submitForm(e)} className="chat-form">
+                        < input value={tempMessage || ""} className="chat-input"
+                            onChange={(e) => { setTempMessage(e.target.value) }} />
+                        < input type="submit" className="chat-button" value="Submit" /> </form>
+                </div>
+            </div>
         </>
     )
 }

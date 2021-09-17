@@ -1,76 +1,74 @@
 import React, {
     useEffect,
-    useState
+    useState,
+    useRef,
+    useMemo
 } from 'react'
 import TinderCard from 'react-tinder-card'
-
+import axios from "axios"
 import './css/TinderCards.css'
+import { useSelector, useDispatch } from "react-redux";
+function TinderCards({ person }) {
 
-function TinderCards() {
-    const [people, setPeople] = useState([])
-
+    const $cards = useSelector(state => state.Cards)
+    const [people, setPeople] = useState(person)
+    const dispatch = useDispatch();
+    const swiperef = useRef();
     useEffect(() => {
-        // database
-        //     .collection('people')
-        //     .onSnapshot((snapshot) =>
-        //         setPeople(snapshot.docs.map((doc) => doc.data()))
-        //     )
+        setPeople($cards.cards || [])
+    }, [$cards])
 
-        setPeople(
-            [{
-                name: "Behroz",
-                id: "122544685",
-                url: "https://pps.whatsapp.net/v/t61.24694-24/233234005_4140014469429649_8407626957343147274_n.jpg?ccb=11-4&oh=4ca4d79f2ce6f8e6216d939a25ce687f&oe=6142421E"
-            }]
-        )
-    }, [])
+    const swiped = (direction, user_to) => {
 
-    const swiped = (direction, nameToDelete) => {
-        console.log('removing:' + nameToDelete)
+        if (direction === "right") {
+            axios.post("/api/tinder/userLikedOrDisliked", {
+                user_id_to: user_to,
+                behavior: (direction === "right") ? "LIKE" : "DISLIKE"
+            })
+
+        }
     }
 
     const outOfFrame = (name) => {
         console.log(name + ' left the screen!')
     }
 
-    return ( <
-        >
-        <
-        div className = 'tinderCards' >
-        <
-        div className = 'tinderCards__cardContainer' > {
-            people.map((person) => ( <
-                TinderCard className = 'tinderCards__swipe'
-                key = {
-                    person.id
-                }
-                preventSwipe = {
-                    ['up', 'down']
-                }
-                onSwipe = {
-                    (dir) => swiped(dir, person.name)
-                }
-                onCardLeftScreen = {
-                    () => outOfFrame(person.name)
-                } >
-                <
-                div className = 'tinderCards__card'
-                style = {
-                    {
-                        backgroundImage: `url(${person.url})`
+    const swipe = (dir) => {
+        // swiperef[0].current.swipe(dir) // Swipe the card!
+    }
+    useEffect(() => {
+        setTimeout(() => {
+            swipe("left")
+        }, 5000)
+    })
+    return (<>
+        <div className='tinderCards' >
+            <div className='tinderCards__cardContainer' > {
+                people && people.map((person, index) => (<TinderCard className='tinderCards__swipe' ref={swiperef[index]}
+                    key={
+                        person._id
                     }
-                } >
-                <
-                h3 > {
-                    person.name
-                } < /h3> <
-                /div> <
-                /TinderCard>
-            ))
-        } <
-        /div> <
-        /div> <
-        />
+
+                    preventSwipe={
+                        ['up', 'down']
+                    }
+                    onSwipe={
+                        (dir) => swiped(dir, person._id)
+                    }
+                    onCardLeftScreen={
+                        () => outOfFrame(person._id)
+                    } >
+                    < div className='tinderCards__card'
+                        style={
+                            {
+                                backgroundImage: `url(${person.avatar})`
+                            }
+                        } >
+                        <h3 > {
+                            person.username
+                        } </h3> </div> </TinderCard>
+                ))
+            } </div> </div> </>
     )
 }
 

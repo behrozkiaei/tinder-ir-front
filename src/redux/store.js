@@ -13,12 +13,18 @@ import {
   AuthReducer
 } from "./reducers/AuthReducer";
 import {
-  ChatReducer
+  ChatReducer,
 } from "./reducers/ChatReducer"
+
+import {
+  CardsReducer
+} from "./reducers/CardsReducer";
+
 
 const reducer = combineReducers({
   Auth: AuthReducer,
   Chat: ChatReducer,
+  Cards: CardsReducer
 });
 
 const middleware = [thunk];

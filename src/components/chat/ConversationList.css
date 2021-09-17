@@ -1,0 +1,92 @@
+.conversations {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: calc(100vh - var(--header-height));
+    overflow-y: scroll;
+    padding: 5px;
+    width: 100%;
+    max-width: 768px;
+    margin: auto;
+
+}
+
+.conversations .matchBox {
+    height: 150px;
+    display: flex;
+
+}
+
+.conversations .matchBox .machedAvatar {
+    width: 20vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-behavior: smooth;
+    overflow-x: scroll;
+}
+
+.machedAvatar img {
+    border-radius: 50%;
+    border: 1px solid var(--color-primary);
+    object-fit: fill;
+    width: 90%;
+}
+
+.conversations .chatConvContainer {
+    height: calc(100vh - var(--header-height) - 150px);
+}
+
+.conversations .messageBox {
+    width: 100vw;
+    display: flex;
+    height: 10vh;
+    text-decoration: none;
+    border-bottom: 1px solid #fe3c7254;
+}
+
+.messageBox .avatar {
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.messageBox .convBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    width: 80vw;
+    padding: 10px;
+}
+
+a {
+    list-style-type: none;
+}
+
+.messageBox img {
+    object-fit: fill;
+    width: 80%;
+    border-radius: 50%;
+    border: 1px solid white;
+    justify-content: center;
+    align-items: center;
+
+}
+
+@media screen and (min-width : 600px) {
+    .messageBox img {
+        width: 50%;
+    }
+}
+
+.messageBox h3 {
+    color: var(--color-primary);
+}
+
+.messageBox h3:hover {
+    color: var(--color-tertiary);
+
+}

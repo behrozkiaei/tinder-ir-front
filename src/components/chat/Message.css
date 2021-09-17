@@ -1,0 +1,98 @@
+.chatContainder {
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    max-width: 768px;
+    margin: auto;
+    padding: 5px 10px;
+
+}
+
+.chatContainder .MessegesContainer {
+    height: 90%;
+    padding: 10px 0px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.MessegesContainer .textInputBox {
+    height: 10%;
+}
+
+.rtlChat {
+    direction: rtl;
+}
+
+.MessegesContainer .messageBox {
+    width: 100vw;
+    display: flex;
+    height: 10vh;
+    text-decoration: none;
+}
+
+.MessegesContainer .messageBox .avatar {
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.MessegesContainer .messageBox img {
+    width: 50px;
+    object-fit: fill;
+    width: 50px;
+    border-radius: 50%;
+    border: 1px solid white;
+}
+
+.MessegesContainer .messageBox .convBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    width: 80vw;
+    padding: 10px;
+}
+
+.MessegesContainer .messageBox .convBox .recieved {
+    background-color: #fe3c7270;
+    ;
+    padding: 3px;
+    border-radius: 0.5em;
+    padding: 8px;
+}
+
+.MessegesContainer .messageBox .convBox .sent {
+    background-color: #e6dddd5c;
+    padding: 3px;
+    border-radius: 0.5em;
+    padding: 8px;
+}
+
+
+.chat-form {
+    width: 100%;
+    display: flex;
+    background-color: #d5d5d575;
+    border-radius: 2em;
+    padding: 5px;
+}
+
+.chat-input {
+    flex: 4;
+    outline: none;
+    border: none;
+    font-size: 14px;
+    color: var(--color-primary);
+    background-color: #f4f4f4;
+    border-radius: 5.5em;
+}
+
+.chat-button {
+    flex: 1;
+    background-color: var(--color-primary);
+    width: 50px;
+    height: 50px;
+    font-weight: bold;
+    border-radius: 31.5em;
+}

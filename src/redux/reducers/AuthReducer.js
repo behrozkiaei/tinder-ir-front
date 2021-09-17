@@ -29,6 +29,17 @@ export const AuthReducer = (state = INITIAL_STATE, action) => {
           isFetching: false,
 
       };
+    case "UPDATE_USER_INFO":
+
+      window.localStorage.removeItem("user")
+      window.localStorage.setItem("user", JSON.stringify(action.payload))
+
+      return {
+        ...state,
+        user: action.payload,
+          isFetching: false,
+
+      };
     case "LOGIN_FAILURE":
       return {
         ...state,
