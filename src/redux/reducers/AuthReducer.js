@@ -14,19 +14,22 @@ export const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         user: null,
-          isFetching: true,
-          error: false,
+        isFetching: true,
+        error: false,
 
       };
     case "LOGIN_SUCCESS":
+      if (!action.payload?.user) {
+        return state;
 
+      }
       window.localStorage.removeItem("user")
       window.localStorage.setItem("user", JSON.stringify(action.payload))
 
       return {
         ...state,
         user: action.payload,
-          isFetching: false,
+        isFetching: false,
 
       };
     case "UPDATE_USER_INFO":
@@ -37,15 +40,15 @@ export const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         user: action.payload,
-          isFetching: false,
+        isFetching: false,
 
       };
     case "LOGIN_FAILURE":
       return {
         ...state,
         user: null,
-          isFetching: false,
-          error: true,
+        isFetching: false,
+        error: true,
 
       };
 
@@ -55,15 +58,15 @@ export const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         user: null,
-          isFetching: false,
+        isFetching: false,
 
       };
     case "LOGIN_ERROR":
       return {
         ...state,
         user: null,
-          isFetching: null,
-          error: action.payload,
+        isFetching: null,
+        error: action.payload,
 
       };
 

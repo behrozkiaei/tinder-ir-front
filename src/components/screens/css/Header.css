@@ -15,3 +15,15 @@
 .header__icon {
     padding: 20px;
 }
+
+.header .head-message {
+    position: relative;
+}
+
+.header .newMessage {
+    font-size: 50px;
+    color: red;
+    position: absolute;
+    top: -24px;
+    right: 41px;
+}

@@ -15,13 +15,13 @@ function SwipeButtons() {
                 <ReplayIcon fontSize='large' />
             </IconButton> */}
             <IconButton className='swipeButtons__left'>
-                <CloseIcon fontSize='large' />
+                <CloseIcon />
             </IconButton>
             <IconButton className='swipeButtons__lightning'>
-                <FlashOnIcon fontSize='large' />
+                <FlashOnIcon sx={{ fontSize: 60 }} />
             </IconButton>
             <IconButton className='swipeButtons__right'>
-                <FavoriteIcon fontSize='large' />
+                <FavoriteIcon />
             </IconButton>
             {/* <IconButton className='swipeButtons__star'>
                 <StarIcon fontSize='large' />

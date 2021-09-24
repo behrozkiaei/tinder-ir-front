@@ -39,6 +39,9 @@ import {
   Chat
 } from "@material-ui/icons";
 import SplashScreen from "./components/splash/SplashScreen";
+import EditPro from "./components/profile/EditPro";
+import Settings from "@material-ui/icons/Settings";
+import Setting from "./components/setting/Setting";
 
 const App = () => {
 
@@ -50,15 +53,21 @@ const App = () => {
   interceptor(history, dispatch);
 
 
+
+
   return (
+
+
     <Router>
 
       <div className="app" >
         <Switch >
           <Route exact path="/" > {
+            (Auth) ? < SplashScreen /> : < LoginScreen />}
+          </Route>
+          <Route exact path="/main" > {
             (Auth) ? < Main /> : < LoginScreen />}
           </Route>
-
           <Route exact path="/splash">
             < SplashScreen />
           </Route>
@@ -69,9 +78,21 @@ const App = () => {
           <Route exact path="/chat/:conversation_id" > {
             (Auth) ? < Message /> : < LoginScreen />}
           </Route>
+
+          {/* Profile */}
+
           <Route exact path="/profile" > {
             (Auth) ? < Profile /> : < LoginScreen />}
           </Route>
+
+          <Route exact path="/editPro" > {
+            (Auth) ? < EditPro /> : < LoginScreen />}
+          </Route>
+
+          <Route exact path="/setting" > {
+            (Auth) ? < Setting /> : < LoginScreen />}
+          </Route>
+          {/* Auth */}
 
           <Route exact path="/login" > {
             (token) ? < SplashScreen /> : < LoginScreen />}

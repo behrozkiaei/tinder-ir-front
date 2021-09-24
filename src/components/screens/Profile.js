@@ -16,6 +16,7 @@ import {
     useSelector,
     useDispatch
 } from "react-redux"
+import { Link } from "react-router-dom";
 
 function Profile() {
     const dispatch = useDispatch();
@@ -29,8 +30,14 @@ function Profile() {
 
 
     useEffect(() => {
-        setAvatar(Auth.user.avatar)
-        setImages(Auth.Images)
+
+        if (!Auth.user) {
+            console.log("Auth is undefined")
+        }
+
+
+        setAvatar(Auth?.user?.avatar)
+        setImages(Auth?.Images)
     }, [Auth])
 
 
@@ -120,17 +127,20 @@ function Profile() {
                     /> </form> </div>
             <div className="info" >
                 <div className="edit" >
-                    <IconButton className="icon-box" >
-                        <SettingsIcon style={
-                            {
-                                fontSize: 80,
-                                color: "white"
+                    <Link to="/setting">
+                        <IconButton className="icon-box" >
+                            <SettingsIcon style={
+                                {
+                                    fontSize: 80,
+                                    color: "white"
+                                }
                             }
-                        }
-                        />
-                    </IconButton>
-                    <p color="secondary" > Edit Profile </p> </div>
+                            />
+                        </IconButton>
+                    </Link>
+                    <p color="secondary" >Setting</p> </div>
                 <div className="upload-image" >
+
                     <IconButton className="icon-box"
                         htmlFor="imageUpload" >
                         <label htmlFor="imageUpload"
@@ -154,14 +164,16 @@ function Profile() {
                         /> </form>
                 </div>
                 <div className="setting" >
-                    <IconButton className="icon-box" >
-                        <EditIcon style={
-                            {
-                                fontSize: 80,
-                                color: "white"
+                    <Link to="/editpro">
+                        <IconButton className="icon-box" >
+                            <EditIcon style={
+                                {
+                                    fontSize: 80,
+                                    color: "white"
+                                }
                             }
-                        }
-                        /> </IconButton> <p color="secondary" > Setting </p>
+                            /> </IconButton> <p color="secondary" >Edit Profile</p>
+                    </Link>
                 </div> </div>
         </div>
     </>
