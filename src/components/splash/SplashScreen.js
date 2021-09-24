@@ -49,7 +49,7 @@ function SplashScreen() {
                     payload: res?.data?.data
                 })
                 setTimeout(() => {
-                    history.push("/")
+                    history.push("/main")
                 }, 2000)
 
             } catch (errror) {
@@ -850,23 +850,23 @@ function SplashScreen() {
         }
     };
 
-    return ( <
-        div className = "lottieContainer" >
+    return (<
+        div className="lottieContainer" >
         <
-        Lottie options = {
-            defaultOptions
-        }
-        height = {
-            400
-        }
-        width = {
-            400
-        }
+            Lottie options={
+                defaultOptions
+            }
+            height={
+                400
+            }
+            width={
+                400
+            }
         />
 
         <
         /div>
-    )
+        )
 }
 
-export default SplashScreen
+        export default SplashScreen

@@ -4,7 +4,6 @@
     max-width: 768px;
     margin: auto;
     padding: 5px 10px;
-
 }
 
 .chatContainder .MessegesContainer {
@@ -13,6 +12,9 @@
     overflow-x: hidden;
     overflow-y: scroll;
     scroll-behavior: smooth;
+    max-width: 768px;
+    width: 100%;
+    margin: auto;
 }
 
 .MessegesContainer .textInputBox {
@@ -27,11 +29,13 @@
     width: 100vw;
     display: flex;
     height: 10vh;
+    max-width: 768px;
+    width: 100%;
     text-decoration: none;
 }
 
 .MessegesContainer .messageBox .avatar {
-    width: 20vw;
+    width: 15%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,8 +54,12 @@
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    width: 80vw;
+    width: 85%;
     padding: 10px;
+    p {
+        line-break: anywhere;
+        color: var(--text-dark);
+    }
 }
 
 .MessegesContainer .messageBox .convBox .recieved {
@@ -69,7 +77,6 @@
     padding: 8px;
 }
 
-
 .chat-form {
     width: 100%;
     display: flex;
@@ -83,14 +90,16 @@
     outline: none;
     border: none;
     font-size: 14px;
-    color: var(--color-primary);
+    padding: 5px 15px;
+    color: var(--text-dark);
     background-color: #f4f4f4;
     border-radius: 5.5em;
 }
 
 .chat-button {
     flex: 1;
-    background-color: var(--color-primary);
+    background-color: var(--color-primary) !important;
+    color: white !important;
     width: 50px;
     height: 50px;
     font-weight: bold;
