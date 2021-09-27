@@ -20,13 +20,50 @@ function TinderCards({ person }) {
 
     const swiped = (direction, user_to) => {
 
-        if (direction === "right") {
-            axios.post("/api/tinder/userLikedOrDisliked", {
-                user_id_to: user_to,
-                behavior: (direction === "right") ? "LIKE" : "DISLIKE"
-            })
 
-        }
+        axios.post("/api/tinder/userLikedOrDisliked", {
+            user_id_to: user_to,
+            behavior: (direction === "right") ? "LIKE" : "DISLIKE"
+        }).then(res => {
+            if (res.data.data) {
+
+                axios.get("/api/chat/getUserConversation").then(res => {
+
+                    dispatch({
+                        type: "SET_CONVERSATIONS",
+                        payload: res.data?.data
+                    })
+
+                })
+                //check messages list again 
+
+                axios.get("/api/chat/getUserConversation").then(res => {
+
+                    dispatch({
+                        type: "SET_CONVERSATIONS",
+                        payload: res.data?.data
+                    })
+
+                })
+
+                //check conversation list again 
+                axios.post("/api/chat/getAllConvMess").then(res => {
+
+                    //shoud check is ther eany new messages
+                    // **
+
+                    //if there is new messages add it in to the store
+                    dispatch({
+                        type: "SET_MESSAGES",
+                        payload: res.data?.data
+                    })
+
+                })
+
+            }
+        })
+
+
     }
 
     const outOfFrame = (name) => {

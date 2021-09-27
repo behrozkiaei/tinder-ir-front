@@ -2,7 +2,7 @@ import Lottie from 'react-lottie';
 import "./splashScreen.css"
 import {
     useHistory
-} from "react-router"
+} from "react-router-dom"
 import {
     useRef,
     useEffect,
