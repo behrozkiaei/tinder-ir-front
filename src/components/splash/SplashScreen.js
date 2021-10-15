@@ -17,6 +17,13 @@ import {
 } from "react-redux";
 
 import axios from "axios"
+
+import '../../services/firebase.js'
+import {
+    getMessaging,
+    getToken
+} from "firebase/messaging";
+
 // import * as animationData from 'https://tinder.s3.ir-thr-at1.arvanstorage.com/tinder.json'
 function SplashScreen() {
     const history = useHistory();
@@ -26,6 +33,42 @@ function SplashScreen() {
     const dispatch = useDispatch();
 
     console.log("herer in splash")
+
+
+    useEffect(() => {
+
+
+
+        // Get registration token. Initially this makes a network call, once retrieved
+        // subsequent calls to getToken will return from cache.
+        const messaging = getMessaging();
+        getToken(messaging, {
+            vapidKey: 'BAfVd_M5hjRY8W1j660xl-BsgK-WzLPngsv9FUNenhBjYh5MXorBu0jrEIZuD2AFTZp7PYW7OBV1X23QTqmFtl0'
+        }).then((currentToken) => {
+            if (currentToken) {
+                // Send the token to your server and update the UI if necessary
+                console.log(currentToken)
+                // ...
+
+                if (Auth.user?.username) {
+
+                    // send Token to database
+                    axios.post("/api/tinder/updateUserInfo", {
+                        username: Auth.user?.username,
+                        fcmToken: currentToken,
+                    })
+                }
+            } else {
+                // Show permission request UI
+                console.log('No registration token available. Request permission to generate one.');
+                // ...
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
+            // ...
+        });
+    }, [])
+
 
     useEffect(() => {
         console.log("herer")
@@ -48,6 +91,9 @@ function SplashScreen() {
                     type: "LOGIN_SUCCESS",
                     payload: res?.data?.data
                 })
+
+
+
                 setTimeout(() => {
                     history.push("/main")
                 }, 2000)

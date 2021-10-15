@@ -1,3 +1,14 @@
+import {
+    initializeApp
+} from "firebase/app";
+
+
+import {
+    getMessaging
+} from "firebase/messaging";
+import {
+    onBackgroundMessage
+} from "firebase/messaging/sw";
 /* eslint-disable no-restricted-globals */
 
 // This service worker can be customized!
@@ -88,3 +99,29 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBxeVrVVWXKCFupPnjszD90Dl-mHVA8-Zo",
+    authDomain: "tinder-ir.firebaseapp.com",
+    projectId: "tinder-ir",
+    storageBucket: "tinder-ir.appspot.com",
+    messagingSenderId: "834912299201",
+    appId: "1:834912299201:web:17bfdc4a75ce1b01290c40",
+    measurementId: "G-XK9LHB51FX"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging();
+onBackgroundMessage(messaging, (payload) => {
+    console.log('[firebase-messaging-sw.js] Received background message ', payload);
+    // Customize notification here
+    const notificationTitle = 'Background Message Title';
+    const notificationOptions = {
+        body: 'Background Message body.',
+        icon: '/firebase-logo.png'
+    };
+
+    self.registration.showNotification(notificationTitle,
+        notificationOptions);
+});
