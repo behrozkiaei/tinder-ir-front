@@ -28,7 +28,7 @@ ReactDOM.render(
   <React.StrictMode>
     <MuiThemeProvider theme={theme}>
       <Provider store={store} >
-        <App />
+        {/* <App /> */}
       </Provider>
     </MuiThemeProvider>
   </React.StrictMode>,

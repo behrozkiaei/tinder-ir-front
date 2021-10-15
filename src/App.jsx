@@ -108,8 +108,9 @@ const App = () => {
                         component={
                             ResetPasswordScreen
                         }
-                    /> < /
-    Switch > < /div > < /Router >
+                    /> </Switch> 
+                    </div > 
+                    </Router >
                     );
 };
 
