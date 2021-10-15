@@ -21,7 +21,7 @@ const Conversation = () => {
             <Header />
 
             <div className="conversations">
-                <div className="matchBox">
+                {/* <div className="matchBox">
                     {
                         [0, 3, 5, 8, 9, 1, 2].map((a, i) => (
                             <div className="machedAvatar" key={i}>
@@ -29,9 +29,9 @@ const Conversation = () => {
                             </div>
                         ))
                     }
-                </div>
+                </div> */}
 
-                <div class="chatConvContainer">
+                <div className="chatConvContainer">
 
                     {conversations?.map((c, id) => (
                         <div key={id}>

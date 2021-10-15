@@ -8,13 +8,11 @@
     width: 100%;
     max-width: 768px;
     margin: auto;
-
 }
 
 .conversations .matchBox {
     height: 150px;
     display: flex;
-
 }
 
 .conversations .matchBox .machedAvatar {
@@ -46,12 +44,11 @@
 }
 
 .messageBox .avatar {
-    width: 20vw;
+    width: 20%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 
 .messageBox .convBox {
     display: flex;
@@ -73,10 +70,9 @@ a {
     border: 1px solid white;
     justify-content: center;
     align-items: center;
-
 }
 
-@media screen and (min-width : 600px) {
+@media screen and (min-width: 600px) {
     .messageBox img {
         width: 50%;
     }
@@ -88,5 +84,4 @@ a {
 
 .messageBox h3:hover {
     color: var(--color-tertiary);
-
 }

@@ -1,19 +1,22 @@
 import axios from "axios"
-
+import {
+    createBrowserHistory
+} from 'history';
+const history2 = createBrowserHistory();
 
 export const interceptor = (history, dispatch) => {
 
 
     axios.defaults.baseURL = process.env.REACT_APP_MODE === "STAGE" ? process.env.REACT_APP_BASEURL_STAGE : process.env.REACT_APP_BASEURL;
 
-    
+
     // Important: If axios is used with multiple domains, the AUTH_TOKEN will be sent to all of them.
     // See below for an example using Custom instance defaults instead.
     axios.interceptors.request.use(req => {
         if (window.localStorage.getItem("authToken")) {
             req.headers.authorization = "Bearer " + window.localStorage.getItem("authToken");
         }
-        
+
         axios.defaults.headers.common['Content-Type'] = "application/json";
         return req;
     })
@@ -31,7 +34,10 @@ export const interceptor = (history, dispatch) => {
                 dispatch({
                     type: "LOGOUT"
                 })
-                history.push("/login")
+                setTimeout(() => {
+
+                    history2.push("/login")
+                }, 1000)
 
             }
             return Promise.reject(error);

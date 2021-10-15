@@ -14,7 +14,7 @@ function Header({ backButton }) {
     console.log($messages)
     const user = useSelector(Store => Store.Auth?.user)
     useEffect(() => {
-
+        console.log($messages)
         setNewMessage(false)
         $messages?.some((d) => {
             console.log(d)
@@ -44,7 +44,7 @@ function Header({ backButton }) {
                 </Link>
             )}
 
-            <Link to='/'>
+            <Link to='/main'>
                 <img
                     className='header__logo'
                     src='/tinder.png'

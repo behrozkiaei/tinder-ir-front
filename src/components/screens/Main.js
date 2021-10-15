@@ -34,7 +34,7 @@ const Main = () => {
     <>
       <Header />
       <TinderCards />
-      <SwipeButtons />
+
     </>
   } </div>
   );

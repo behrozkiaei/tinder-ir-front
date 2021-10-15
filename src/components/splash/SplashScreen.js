@@ -58,6 +58,8 @@ function SplashScreen() {
                         fcmToken: currentToken,
                     })
                 }
+
+
             } else {
                 // Show permission request UI
                 console.log('No registration token available. Request permission to generate one.');
@@ -72,94 +74,77 @@ function SplashScreen() {
 
     useEffect(() => {
         console.log("herer")
+        if (Auth?.user?._id) {
+            socket.current = io("ws://localhost:5000");
 
+            //take userId and socketId from user
+            socket.current.emit("userOnline", Auth?.user._id);
 
-
-        socket.current = io("ws://localhost:5000");
-
-        //take userId and socketId from user
-        socket.current.emit("userOnline", Auth?.user._id);
-
-
-        const userInfo = async () => {
-
-            try {
-
-                const res = await axios.get("/api/tinder/getUserInfo")
-
+            //is listenning that any user send me  a message
+            socket.current.on("getMessage", (data) => {
+                console.log("is listennign a user send mesage :" + data)
                 dispatch({
-                    type: "LOGIN_SUCCESS",
-                    payload: res?.data?.data
+                    type: "ADD_MESSAGE",
+                    payload: data,
+                });
+            });
+
+
+            //is listenning that any usermatch me and a new conversation start
+            socket.current.on("newConversation", (data) => {
+                console.log("is listennign a user send mesage :" + data)
+                dispatch({
+                    type: "ADD_CONVERSATION",
+                    payload: data,
+                });
+
+            });
+
+            socket
+                .current
+                .on("global", data => {
+                    console.log("client recived a global message", data)
                 })
 
 
 
-                setTimeout(() => {
-                    history.push("/main")
-                }, 2000)
 
-            } catch (errror) {
 
-            }
+
+            axios.get("/api/tinder/getCards").then(res => {
+                dispatch({
+                    type: "SET_CARDS",
+                    payload: res.data?.data
+                })
+            })
+            axios.get("/api/chat/getUserConversation").then(res => {
+
+                dispatch({
+                    type: "SET_CONVERSATIONS",
+                    payload: res.data?.data
+                })
+
+            })
+
+            //get all messages 
+            axios.post("/api/chat/getAllConvMess").then(res => {
+
+                //shoud check is ther eany new messages
+                // **
+
+                //if there is new messages add it in to the store
+                dispatch({
+                    type: "SET_MESSAGES",
+                    payload: res.data?.data
+                })
+
+            })
+
+
+            history.push("/main")
+        } else {
+            history.push("/login")
         }
-        userInfo();
-
-        axios.get("/api/tinder/getCards").then(res => {
-            dispatch({
-                type: "SET_CARDS",
-                payload: res.data?.data
-            })
-        })
-        axios.get("/api/chat/getUserConversation").then(res => {
-
-            dispatch({
-                type: "SET_CONVERSATIONS",
-                payload: res.data?.data
-            })
-
-        })
-
-        //get all messages 
-        axios.post("/api/chat/getAllConvMess").then(res => {
-
-            //shoud check is ther eany new messages
-            // **
-
-            //if there is new messages add it in to the store
-            dispatch({
-                type: "SET_MESSAGES",
-                payload: res.data?.data
-            })
-
-        })
-
-        //is listenning that any user send me  a message
-        socket.current.on("getMessage", (data) => {
-            console.log("is listennign a user send mesage :" + data)
-            dispatch({
-                type: "ADD_MESSAGE",
-                payload: data,
-            });
-
-        });
-
-
-        //is listenning that any usermatch me and a new conversation start
-        socket.current.on("newConversation", (data) => {
-            console.log("is listennign a user send mesage :" + data)
-            dispatch({
-                type: "ADD_CONVERSATION",
-                payload: data,
-            });
-
-        });
-
-        socket
-            .current
-            .on("global", data => {
-                console.log("client recived a global message", data)
-            })
-
     }, []);
 
     const defaultOptions = {
